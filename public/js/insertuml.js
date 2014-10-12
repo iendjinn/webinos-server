@@ -62,7 +62,8 @@ function insertUML() {
 	if (uml.length > 0) {
 		for(var i = 0; i < uml.length; i++) {
 			uml[i].setAttribute('id', 'uml' + x);
-			compress(uml[i].innerText, 'uml' + x);
+			var text = uml[i].innerHTML.replace(/-&gt;/g, '->');
+			compress(text, 'uml' + x);
 			x++;
 		}
 	}

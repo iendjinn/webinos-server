@@ -708,7 +708,7 @@ end note
 mobile_sd -> mobile_pep : discovery attempt
 mobile_pep -> mobile_pdp : policies check
 mobile_pdp -> mobile_pep : operation denied
-mobile_pep -> mobile_sd : action not allowed</div>
+mobile_pep -> mobile_sd : action not allowed
 
 == in-car system discovery==
 

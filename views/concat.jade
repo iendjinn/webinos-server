@@ -6,4 +6,5 @@ block content
 	div #{error}
 	script(src='js/concat.js')
 	script.
+		document.onload = fixBroken();
 		document.onload = insertLinks(document, function(doc) { console.log("Expansion divs setup");}, '');

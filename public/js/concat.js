@@ -10,6 +10,12 @@ function getContent(url, div) {
 		var newDiv = document.createElement('div');
 		newDiv.setAttribute('class', 'section');
 		newDiv.innerHTML = data;
+		var brokenLinks = newDiv.getElementsByTagName('a');
+		for (var i = 0; i < brokenLinks.length; i++) {
+			if (brokenLinks[i].href.indexOf('/.html') != -1) {
+				brokenLinks[i].href = brokenLinks[i].pathname.replace('/.html', '/'+brokenLinks[i].innerHTML.replace(/ /g, '_'));
+			}
+		}
 		newDiv.setAttribute('id', 'd' + j);
 		j++;
 		

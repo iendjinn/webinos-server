@@ -14,7 +14,7 @@ function parse(filename, callback) {
 				console.log(err);
 				callback({"name":"503", marked:marked, "content":"", "error":"Internal Server Error"});
 			}
-			else callback({"name":"Picosec Wiki", marked:marked, "content":"", "content":data});
+			else callback({"name":"webinos Wiki", marked:marked, "content":"", "content":data});
 		}
 	});
 }
