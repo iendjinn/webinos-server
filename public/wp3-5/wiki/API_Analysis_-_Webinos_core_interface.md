@@ -1,0 +1,37 @@
+Webinos core interface[¶](#Webinos-core-interface)
+--------------------------------------------------
+
+### Overview of API[¶](#Overview-of-API)
+
+Link to API - <http://dev.webinos.org/specifications/new/example.html>
+
+The webinos core interface is a way of accessing all the other
+interfaces.
+
+### Threats[¶](#Threats)
+
+#### API-Specific threats and misuse cases[¶](#API-Specific-threats-and-misuse-cases)
+
+1.  Replacing this core interface with another, malicious core
+    interface. This could access a different personal zone proxy,
+    perhaps one that is not on the current device.
+
+#### Implementation threats and possible attacks[¶](#Implementation-threats-and-possible-attacks)
+
+1.  Are there any threats due to the way the webinos.js shim is
+    implemented?
+
+#### Threats to apps and developers using this API (E.g. Jimmy and Jessica)[¶](#Threats-to-apps-and-developers-using-this-API-Eg-Jimmy-and-Jessica)
+
+1.  A developer has little assurance that the webinos object is
+    communicating with the right endpoint.
+
+#### Threats to device manufacturers, operators, other stakeholders[¶](#Threats-to-device-manufacturers-operators-other-stakeholders)
+
+No obvious threats.
+
+### Mitigations[¶](#Mitigations)
+
+1.  Ensure that the browser can only talk to the right PZP through
+    authentication of the IPC / WebSocket.
+

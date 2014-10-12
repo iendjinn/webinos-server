@@ -1,0 +1,65 @@
+Listen[¶](#Listen)
+==================
+
+To set up an event listener for an NFC Tag:
+
+``` {.javascript .prettyprint}
+Webinos.nfc.addListener(listener, success, fail);
+
+function listener (event)
+{
+  var tag = event.tag;  // object proxying the NFC Tag
+  console.log("tag technology: " + tag.tech);
+  tag.close = function () {
+    console.log("lost contact with the Tag");
+  };
+}
+
+function success ()
+{
+  console.log("successfully registered NFC event listener");
+}
+
+function fail ()
+{
+  console.log("failed to register NFC event listener");
+}
+```
+
+The tag.tech field is a string identifying the kind of NFC Tag:
+
+-   **OTHERS**
+-   **NFCA**
+-   **NFCB**
+-   **NFCF**
+-   **NFCV**
+-   **ISODEP**
+-   **NDEF**
+
+If the Tag is an NDEF Tag, the ndefMessage property can be used to
+access the NDEF records:
+
+``` {.javascript .prettyprint}
+  var records = tag.ndefMessage || [];
+
+  for (var i = 0; i < records.length; ++i
+  {
+    var record = records[i];
+    console.log("Record: " + i);
+    console.log("type: " + record.type);
+    console.log("id: " + record.id);
+    console.log("payload: " + Webinos.nfc.bytesToString(record.payload));
+    console.log("");
+  }
+```
+
+As a convenience to developers, you can also register for events for
+Tags with specific NDEF record types:
+
+``` {.javascript .prettyprint}
+  // register for Tags with VCARD data
+  Webinos.nfc.addMimeTypeListener("text/vcard", listener, success, fail);
+
+  // register for Tags with URIs, e.g. for pointers to websites
+  Webinos.nfc.addURITypeListener(listener, success, fail);
+```

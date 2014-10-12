@@ -1,0 +1,56 @@
+[Back to User Identity and User Data
+Management](Back%20to%20User%20Identity%20and%20User%20Data%20Management.html)
+
+20110404 conf call on User Identity Management[¶](#20110404-conf-call-on-User-Identity-Management)
+==================================================================================================
+
+Date: 4 Apr 2011\
+Time: 10:00 - 11:00 CEDT\
+Bridge: PowWowNow, *Enhanced Access*, PIN: 312806, [Dial-in
+numbers](http://pdf.powwownow.com/pdf/GBR_en_pwn-dial-in-numbers.pdf)
+
+Agenda:
+
+-   Architecture discussion
+-   Applying architecture on Nick's use cases
+
+Action Items:
+
+-   Polito: creates further activity diagrams for the other scenarios of
+    our IDM use cases
+-   Sven: Detail remote auth scenario by adding usage of something
+-   Nick: JavaScript code examples proposing how overlay network,
+    addressing user identification and authentication may work in
+    webinos
+
+Attendees:
+
+-   Nick
+-   Sven
+-   John
+-   Andrea
+
+Discussion:
+
+-   Assumption: user puts in a shared secret on each of his devices
+    -   There is the need to detail how this device registration works
+-   Polito presents an activity diagram of scenario 1 of our IDM use
+    cases
+    -   The other scenarios from our IDM use cases will also follow
+    -   There is the need to see how combination of two webinos clouds
+        of two different users is handled
+    -   plantUML
+-   remote auth with other services
+    -   on the wiki yet but needs more details (add some user
+        interaction) (Sven)
+-   service which knows all devices of the user for discovery purposes:
+    -   need discussion with discovery and overlay net people to see
+        what they favour and if they’d like to use pub key
+        identification of users/devices
+    -   impact of this decision on user IDM and auth is not yet clear
+    -   overlay net: Nick talked to Dave and will propose JavaScript
+        code snippets which will show us how overlay net and user
+        identification could interwork
+
+Next meeting: conf call on Fri 8 Apr 2011, 11:00 - 12:00 CEDT
+

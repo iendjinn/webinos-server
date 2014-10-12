@@ -1,0 +1,269 @@
+Conceptual Architecture[¶](#Conceptual-Architecture)
+====================================================
+
+The webinos platform's security and privacy goals are primarily achieved
+through the introduction of an *access control policy architecture*
+based on [XACML](XACML.html) integrated with extensions from
+[PrimeLife](PrimeLife.html)
+
+[JPL]: Could use some references to XACML and PrimeLife documentation.
+This might also let you delete explanations of what PrimeLife is =\>
+[SM]: done.
+
+The main motivations behind the choice of the PrimeLife extension, other
+than the support of data-handling privacy policies are:
+
+-   Support for credential-based restrictions (digital credential and
+    certified attributes)
+-   Legislation support (EU privacy directives)
+-   PrimeLife is an open-source European Project
+
+[KW] Maybe some short explanation what PDP is? (or note, that it will be
+explained later) =\> [SM] Done
+
+The complete architecture - the components for which are described and
+depicted below - contains, as well as than the XACML/PrimeLife
+components, a PZH and PZP defined in the high level webinos architecture
+and the PDPC (PDPCache) generally included in XACML's PDP component. The
+architecture is composed of the following elements:
+
+***Access Requestor***: the entity which requires and requests access to
+a resource. For example, an application may request access to a service
+defined by a webinos API.
+
+***Personal Zone Proxy (PZP)***: defined in the preceding sections, in
+this context it can act in four ways:
+
+1.  enforce authorization decisions at the device level
+2.  synchronize request context data with other devices <span
+    style="background:yellow;"> [JPL]: Can you rephrase this? I don't
+    understand what you mean.</span>
+3.  synchronize PDP policies with other devices
+4.  verify credentials towards the request context <span
+    style="background:yellow;"> [JPL]: Can you rephrase this? I don't
+    understand what you mean.</span>
+
+***Personal Zone Hub (PZH)***: defined in the preceding sections, in
+this context it can act in three ways:
+
+1.  as a data synchronizer towards the request context (via PZP)
+2.  as a policy synchronizer towards the PDP / PDPC (via PZP)
+3.  as a credential system (responsible for credential verification)
+    towards the request context (via PZP)
+
+***Decision Wrapper***: responsible for driving the access control
+policy evaluation and enforcement.
+
+***Access Manager***: the entity in charge of taking the final decision
+by combining the XACML access.\
+control and the DHDF data.
+
+***DHDF Engine***: Data Handling Decision Function engine provides
+privacy and data handling functionalities.\
+It does not implement a complete privacy-aware access control system,
+but rather it is responsible for\
+the management and evaluation of data handling policies only.
+
+***Data Reader***: responsible for abstracting the communication with
+the Request Context.
+
+***Request Context***: responsible for managing all contextual
+information; it stores all the data and\
+credentials released by a user in a given session.
+
+***Policy Enforcement Point (PEP)***: the entity that performs access
+control, by making decision requests and enforcing authorization
+decisions. It also tries to execute the Obligations and doesn't grant
+access if is unable to complete these actions.
+
+***Policy Decision Point (PDP)***: the main decision point for the
+access requests. It collects all the necessary information from other
+actors and concludes an authorization decision.
+
+***PDPC***: the PDP cache, stores PDP decisions that could be share
+among personal devices.
+
+***Context Handler***: the entity which sends a policy evaluation
+request to the PDP and manage context-based information.
+
+***Policy Information Point (PIP)***: the entity that acts as a source
+of attribute values that are retrieved from several internal or external
+parties like resources, subjects, environment and so on.
+
+***Policy Administration Point (PAP)***: the repository for the
+policies, it manages policies and provides them to the Policy Decision
+Point.
+
+![](architecture.png)
+
+The data flow sequence is exposed by the three scenarios presented in
+the "Formal Specification" paragraph.
+
+[JPL] No, it wont!
+![:)](/redmine/plugin_assets/redmine_wiki_extensions/images/smile.png)
+=\> [SM] removed "More aspects on security and privacy will be pointed
+out in the 3.5 deliverable ([D035](D035.html))
+
+Technical Use Cases[¶](#Technical-Use-Cases)
+--------------------------------------------
+
+[JPL] It might be worth asking Christian whether this part belongs in
+the specification or not... It's useful information, but it isn't
+specification material.
+
+Here are depicted and briefly presented use-cases particularly relevant
+for the policy sub-task.
+
+### WOS-UC-TA8-002: Interpreting policies and taking access control decisions[¶](#WOS-UC-TA8-002-Interpreting-policies-and-taking-access-control-decisions)
+
+**Normal Flow**
+
+***Pre-Condition***\
+The User has a tablet PC running webinos.\
+The User has a photo collection on his tablet PC which he would like to
+share with other people.\
+The webinos platform has a set of policies installed. These are not
+contradictory - a decision can always be taken based on their content.
+
+***Flow***\
+1. The User has installed a new photo-sharing Application.\
+2. The photo-sharing Application automatically tries to upload his
+photos to a shared repository.\
+3. Accessing photos stored on the webinos Device - his tablet pc -
+results in an access-control request to the webinos platform.\
+4. webinos takes the event (Application X accessing File F) and checks
+against the set of policies (PS) installed.\
+5. The policies allow this action, and the photo-sharing app resumes
+uploading photos.
+
+***Post-Condition***\
+The correct access control decision is taken with respect to all
+policies.
+
+**Alternate Flow (optional)**
+
+***Pre-Condition***\
+Same as normal flow.
+
+***Post-Condition***\
+5. The policies do not allow this action and the Application is not able
+to upload any files.\
+6. The Application fails gracefully, informing the User of why it is
+unable to complete the request.\
+7. The access control decision is logged.
+
+**Alternate Flow (optional)**\
+***Pre-Condition***\
+Same as normal flow.
+
+***Post-Condition***\
+5. The policies require an extra condition before allowing this action:
+in this case, requesting User input to confirm that this behaviour is
+permitted.\
+6. webinos prompts the User to confirm that access to photos is
+allowed.\
+7. The User agrees.\
+8. The photo-sharing Application resumes uploading photos.
+
+### Sequence diagram analysis: WOS-UC-TA8-002 - Interpreting policies and taking access control decisions[¶](#Sequence-diagram-analysis-WOS-UC-TA8-002-Interpreting-policies-and-taking-access-control-decisions)
+
+![](WOS-UC-TA8-002_seq.png)
+
+### WOS-UC-TA8-003: Enforcing multiple policies on multiple devices[¶](#WOS-UC-TA8-003-Enforcing-multiple-policies-on-multiple-devices)
+
+**Normal Flow**\
+***Flow***\
+1. The User has a Mobile phone and an in-car entertainment System.\
+2. The User decides that he does not want to alert local networks to his
+presence.\
+3. He uses webinos to specify that his Devices should remain hidden and
+not discoverable. He does this on his Mobile phone.
+
+***Post-Condition***\
+Any webinos Device used by the User subsequently will not be
+discoverable by a remote network. This includes his car whenever he is
+using it.
+
+**Alternate Flow**\
+***Pre-Condition***\
+A User has both personal and work photos on his webinos Device.
+
+***Flow***\
+1. The User uses a Mobile phone provided by his company, a professional
+photography business.\
+2. He has configured it to allow him to share personal information with
+certain social networking Applications.\
+3. One of the Applications encourages the sharing of personal photos.\
+4. He does not see a problem with sharing the photos on his Device, and
+proceeds, allowing the potential upload of all photos on his Device.\
+5. However, the company policy protects all the photos owned by the
+company, many of which he has inadvertently given permission to. These
+are forbidden from being used by non-trusted Applications.\
+6. The webinos policy engine interprets the User's policy and the
+company policy - knowing that the company, as the phone's owner, takes
+precedence - and denies access to the relevant photos.
+
+***Post-Condition***\
+The User can only share his own photos with his social network
+Application, not any of the company's copyrighted photos.
+
+### Sequence diagram analysis: WOS-UC-TA8-003 - Enforcing multiple policies on multiple devices (normal flow)[¶](#Sequence-diagram-analysis-WOS-UC-TA8-003-Enforcing-multiple-policies-on-multiple-devices-normal-flow)
+
+![](WOS-UC-TA8-003_seq.png)
+
+### WOS-UC-TA8-007: Policy authoring tools[¶](#WOS-UC-TA8-007-Policy-authoring-tools)
+
+**Normal Flow**\
+***Pre-Condition***\
+The Developer's company has ownership of company Devices and is able to
+set policies which cannot be overridden by the End Users.
+
+***Flow***\
+1. The Developer knows that webinos policies are written in a standard
+language and he downloads a webinos policy editing tools to help him
+create a suitable policy for his requirements.\
+2. He uses the tool to select the class of assets which she is concerned
+about - all data owned by the company.\
+3. He then sets a mandatory policy that this data is not allowed to be
+shared with any Application not signed by the company. All access to the
+data should also be logged.\
+4. He also selects a default policy for personal data, stating that it
+should not be shared with Applications by default.\
+5. The Developer modifies various other settings until he is happy with
+the policy.\
+6. The tool provides several examples of how his policy would be
+applied, and what it allows and denies access to.\
+7. He then tests his policy against several example Device
+configurations that the tool supports. This shows him that Devices using
+his policy would still be able to run, but would not be able to access
+company data.\
+8. He saves the policy and signs it to mark it as a trusted company
+policy.
+
+***Post-Condition***\
+The company policy can be applied to all Devices the company owns and
+will control webinos Applications in the ways defined by the Developer.
+
+**Alternate Flow (optional)**\
+***Flow***\
+7. The Developer tests the policy and realizes that it prevents
+Applications from accessing any data on the Devices. This is shown to
+him using the policy tool.\
+8. He realizes his mistake and modifies the policy suitably.
+
+### Sequence diagram analysis: WOS-UC-TA8-007 - Policy authoring tools[¶](#Sequence-diagram-analysis-WOS-UC-TA8-007-Policy-authoring-tools)
+
+![](WOS-UC-TA8-007_seq.png)
+
+References[¶](#References)
+--------------------------
+
+### XACML[¶](#XACML)
+
+[OASIS eXtensible Access Control Markup Language (XACML)
+TC](http://www.oasis-open.org/committees/tc_home.php?wg_abbrev=xacml)
+
+### PrimeLife[¶](#PrimeLife)
+
+[PrimeLife](http://www.primelife.eu/)
+

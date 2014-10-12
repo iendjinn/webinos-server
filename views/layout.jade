@@ -1,0 +1,22 @@
+doctype html
+html
+	head
+		title= title
+		link(rel='stylesheet', href='/stylesheets/style.css')
+	body
+		script(src='http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js')
+		script.
+			xmlhttp=new XMLHttpRequest();
+			xmlhttp.open("GET","/js/pluginsettings.json",false);
+			xmlhttp.send();
+			xmlDoc=xmlhttp.response;
+			var settings = JSON.parse(xmlDoc);
+		script(src='/js/rawdeflate.js')
+		script(src='/js/insertuml.js')
+		script(src='/js/insertgraphviz.js')
+		script(src='/js/linkFix.js')
+		block content
+		script.
+			document.onload = insertUML();
+			document.onload = insertGViz();
+			document.onload = fixBroken();

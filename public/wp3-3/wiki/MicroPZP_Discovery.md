@@ -1,0 +1,33 @@
+microPZP Discovery[¶](#microPZP-Discovery)
+==========================================
+
+TLS-capable microPZP[¶](#TLS-capable-microPZP)
+----------------------------------------------
+
+For a TLS-capable microPZP, PZP Discovery is fundamentally unchanged in
+comparison with a full PZP. If a microPZP is attached via a bus and
+gateway, a bus-specific method may be used for peer PZP discovery; for
+example Bluetooth PZP discovery may be used, as with a full PZP, if the
+microPZP is attached over a BT PAN connection.
+
+Tethered microPZP[¶](#Tethered-microPZP)
+----------------------------------------
+
+For a tethered microPZP, PZP Discovery is always mediated by the proxy
+device. This includes advertising the existence of already-enrolled
+microPZPs as well as conduct of any available method for discovery of
+as-yet-unenrolled microPZPs.
+
+Bus-based discovery with auto-enrolment[¶](#Bus-based-discovery-with-auto-enrolment)
+------------------------------------------------------------------------------------
+
+If a microPZP is reachable via a bus that itself supports a local
+discovery mechanism (such as Bluetooth), then it is possible for the
+proxy device to manage a dynamic population of microPZPs automatically.
+The proxy can discover devices matching specific configured criteria –
+by defining application-specific (and bus-specific) service identifiers
+if necessary – and then configure and enroll those devices that are not
+already enrolled as they are discovered. This could be applicable in an
+IOT setting where there is a dynamic population of similarly configured
+devices.
+

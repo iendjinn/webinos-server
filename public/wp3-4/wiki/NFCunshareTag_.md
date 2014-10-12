@@ -1,0 +1,14 @@
+unshareTag[¶](#unshareTag)
+==========================
+
+This method is used after the shareTag method, and sets the device back
+to the default mode in which it listens for the presence of NFC tags.
+
+``` {.webidl .prettyprint}
+  // unset device from NDEF push sharing mode
+  void unshareTag(SuccessCallBack success, FailCallBack fail);
+```
+
+It makes use of the success and failure call back pattern. These call
+backs are defined in a subsequent section.
+

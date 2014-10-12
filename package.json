@@ -1,0 +1,23 @@
+{
+  "name": "pico-server",
+  "version": "0.2.0",
+  "description": "Web server with support for md files",
+  "author": "Ivan Glautier <ivanglautier@gmail.com>",
+  "contributors": [{
+}],
+  "main": "app.js",
+  "repository": {
+  "type": "git",
+  "url": "https://github.com/IGlautier/pico-server"
+},
+  "dependencies": {
+    "express": "4.2.x",
+    "basic-auth-connect" : "1.0.x",
+	"marked" : "0.3.x",
+	"jade" : "1.5.x",
+	"path" : "0.4.x"
+  },
+  "preferGlobal": false,
+  "private": true,
+  "license": "MIT"
+}

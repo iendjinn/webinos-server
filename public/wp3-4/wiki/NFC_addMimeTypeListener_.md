@@ -1,0 +1,16 @@
+addMimeTypeListener[¶](#addMimeTypeListener)
+============================================
+
+This is a method for registering a call back for NFC tags with NDEF MIME
+content records with a specific MIME type, e.g. "text/vcard", which is
+used for an electronic equivalent of a business card.
+
+``` {.webidl .prettyprint}
+  // add listener for NDEF tags with MIME content record(s)
+  void addMimeTypeListener(DOMString mimeType,
+      NfcEventCallBack listener, SuccessCallBack success, FailCallBack fail);
+```
+
+It makes use of the success and failure call back pattern. These call
+backs are defined in a subsequent section.
+

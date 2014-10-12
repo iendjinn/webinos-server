@@ -1,0 +1,56 @@
+Push[¶](#Push)
+==============
+
+***How to determine when it is reasonable to exit sharing mode? Is there
+a way to determine that the other device has moved out of range? Or
+perhaps an acknowledgement that it read the shared data?***
+
+You can set your NFC device, e.g. a smart phone to push an NDEF message
+to another such device. The first step is to prepare the message. You
+then call the shareTag method to enter the sharing mode:
+
+``` {.javascript .prettyprint}
+// called when the Tag is discovered
+function listener (event)
+{
+  var nfc = Webinos.nfc;
+
+  // prepare an NDEF message
+  var message = [
+    nfc.uriRecord("http://www.example.com/");
+  ];
+
+  // and write it back to the Tag
+  nfc.shareTag(message, success, fail);
+}
+
+function success ()
+{
+  console.log("entered NFC sharing mode");
+}
+
+function fail ()
+{
+  console.log("failed to enter NFC sharing mode");
+}
+```
+
+Some time later, you call the unshareTag method to restore your device
+to normal mode of operation where it is listening for NFC Tags that come
+in range:
+
+``` {.javascript .prettyprint}
+  nfc.unshareTag(success, fail);
+
+...
+
+function success ()
+{
+  console.log("exited NFC sharing mode");
+}
+
+function fail ()
+{
+  console.log("error on exiting NFC sharing mode");
+}
+```

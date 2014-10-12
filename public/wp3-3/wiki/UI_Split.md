@@ -1,0 +1,73 @@
+UI-Widget: Split View[¶](#UI-Widget-Split-View)
+===============================================
+
+A split view is an application screen which is divided in two logical
+elements. Most split screens have a menu on the left screen and content
+related to the selected menu item on the (larger) right screen. To give
+a better view, a mock-up of this type of interface can be seen below.
+
+![](Split-view.png)
+
+### Rendering rules[¶](#Rendering-rules)
+
+Assuming the developer doesn't use fixed-widths for the main navigation
+elements so they expand or shrink along with the screen size, this view
+is good for most screens. The most notable exception to this, are
+smartphones. An overview of platform-specific rendering rules can be
+found below.
+
+#### PC and Tablet[¶](#PC-and-Tablet)
+
+Next to smartphones, PC's and tablets are the most used computing
+devices that offer an easy interaction method and decent screen sizes. A
+split view is used in a significant number of applications on these
+devices, so it is very likely the developer was designing for these
+platforms when creating the interface. So no significant generic
+adaptations can be made for these platforms.
+
+#### Smartphone[¶](#Smartphone)
+
+Smartphones are the notable exception for this widget type. Their screen
+is usually too small to contain the menu from the left-hand side and the
+content from the right-hand side on-screen at the same time. The generic
+adaptation that can be used works in the following matter:
+
+-   On start-up of the application (screen), the right-hand side with
+    the content is hidden by letting the menu take up the entire screen
+    so the user can easily make their selection.
+-   When an item is selected, the menu is shifted to the left out of
+    view, so the content is shown. Filling the content element with the
+    correct content should be taken care of by the application.
+-   When the user presses the back button, the menu is shifted into view
+    from the left and covers the content area again, so the user can
+    make a new selection.
+
+#### In-vehicle system and TV[¶](#In-vehicle-system-and-TV)
+
+The main restriction for this type of widget on these systems, is the
+interaction method. When the screen is shown, focus should be placed on
+the first menu element automatically. When the user is scrolling (down),
+focus should not be moved out of the menu, but remain on the menu items
+until the user has made a selection. After that has happened, the focus
+is shifted to the content area, until the user presses the back button.
+
+### Code example[¶](#Code-example)
+
+The following exemplifies how to annotate the HTML code of the
+application in order to allow the UI adaption for list views.
+
+     1 <div data-role="splitview">
+     2     <div data-role="split-left">
+     3         <ul data-role='listview'>
+     4            <li> ... </li>
+     5            <li> ... </li>
+     6            <li> ... </li>
+     7            <li> ... </li>
+     8            <li> ... </li>
+     9         <ul>
+    10     </div>
+    11     <div data-role="split-right">
+    12     </div>
+    13 </div>
+
+------------------------------------------------------------------------

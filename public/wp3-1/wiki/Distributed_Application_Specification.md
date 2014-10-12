@@ -1,0 +1,6 @@
+Distributed Application Specification[¶](#Distributed-Application-Specification)
+================================================================================
+
+This wiki page is about discussing how webinos applications can be
+delivered in a distributed manner.
+

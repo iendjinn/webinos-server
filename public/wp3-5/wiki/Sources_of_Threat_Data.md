@@ -1,0 +1,31 @@
+Sources of Threat Data[¶](#Sources-of-Threat-Data)
+--------------------------------------------------
+
+We have used the following sources of data to identify threats,
+vulnerabilities and attacks that may relate to webinos:
+
+### CAPEC[¶](#CAPEC)
+
+The Common Attack Pattern Enumeration and Classification (CAPEC) is a
+database of methods for attacking systems based on the style of *Design
+Patterns*. Attack Patterns try to be sufficiently abstract that they can
+be translated between different systems. For webinos, the CAPEC database
+has been imported into the CAIRIS tool and used as a source of
+*threats*. The webinos attack patterns are defined with the additional
+details of the webinos architecture but are often inspired and closesly
+related to CAPEC attack patterns. ([CAPEC](CAPEC.html))
+
+### CWE[¶](#CWE)
+
+The Common Weakness Enumeration (CWE) provides a "unified, measurable
+set of software weaknesses". The CWE database of vulnerabilities was
+added to the CAIRIS tool and aligned with attack patterns.
+([CWE](CWE.html))
+
+### OWASP[¶](#OWASP)
+
+The Open Web Application Security Project (OWASP) provides a wealth of
+data on attacks and threats to web applications. Dozens of threats and
+attacks have been added to the CAIRIS tool based on the OWASP project
+and then aligned with attack patterns. ([OWASP](OWASP.html))
+

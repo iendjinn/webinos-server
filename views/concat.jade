@@ -1,0 +1,9 @@
+extends layout
+
+block content
+	h1= name
+	div!= marked(content)
+	div #{error}
+	script(src='js/concat.js')
+	script.
+		document.onload = insertLinks(document, function(doc) { console.log("Expansion divs setup");}, '');

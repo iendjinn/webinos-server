@@ -1,0 +1,6 @@
+Webinos Application Specification[¶](#Webinos-Application-Specification)
+========================================================================
+
+This wiki page is about discussing the technology behind webinos
+applications
+

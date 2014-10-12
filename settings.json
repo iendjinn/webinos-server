@@ -1,0 +1,10 @@
+{
+  "sitename" : "localhost:8080",
+  "host" : "localhost",
+  "markdownUrl" : "http://www.plantuml.com/plantuml/img",
+  "fileLocation" : "/public",
+  "concatRoot" : "index.md",
+  "username" : "admin",
+  "password" : "pico123",
+  "port" : 8080
+}

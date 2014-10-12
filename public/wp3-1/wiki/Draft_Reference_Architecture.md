@@ -1,0 +1,256 @@
+Draft Reference Architecture[¶](#Draft-Reference-Architecture)
+==============================================================
+
+Basic "State of the Art" Web Runtime Architecture[¶](#Basic-State-of-the-Art-Web-Runtime-Architecture)
+------------------------------------------------------------------------------------------------------
+
+![](Webinos_Draft_Architecture.png)
+
+The base reference architecture comes in five functional layers
+
+### Packaging[¶](#Packaging)
+
+Mechanisms for packaging, describing and “anchoring” a web application
+
+### UI and Code Logic[¶](#UI-and-Code-Logic)
+
+Standard web languages for creating interfaces, writing programming
+logic. Essentially HTML + Javascript
+
+### Communications[¶](#Communications)
+
+Mechanism for the web application communicating with the outside layer.
+Can be subdivided on the base architecture into two types
+
+**Declarative:** HMTL links to external resources that are pulled over
+HTTP according to the page interpretation and display semantics\
+**Programtic:** Methods of invoking a connection programatically and
+asynchronously. Essentially XHR, xmlhttprequest. Will include
+websockets.
+
+### Policy and Security[¶](#Policy-and-Security)
+
+The layer that is responsible of for interpreting and policing security.
+Could include security settings like cookies, popups etc. But most
+relevant for accessing new extension APIs
+
+### Extension APIs[¶](#Extension-APIs)
+
+New APIs taht provide functionality to a web application which is
+outside of the normal security concerns and sandbox of a typical web
+application.
+
+Primary Webinos Innovation[¶](#Primary-Webinos-Innovation)
+----------------------------------------------------------
+
+### Problem[¶](#Problem)
+
+XHR, the normal mode of communication between client and server, works
+well for traditional web. Webinos introduces notion of peer
+applications, that are all both clients and servers, where the
+programming logic can be even more highly distributed. This introduces
+problems of
+
+-   How do “webinos” applications find each other
+-   How can they communicate effectively
+-   How is policy enforced over a distrusted model
+
+### Solution[¶](#Solution)
+
+We introduce concept of Webinos Agents that will act as proxies for
+devices/people/application, to address two issues
+
+-   Discoverability over complex networks
+-   Distributed policy enforcement
+
+We introduce the concept of JavaScript bridges, to simplify programming
+tasks for webinos developers
+
+Webinos Architecture[¶](#Webinos-Architecture)
+----------------------------------------------
+
+### Webinos Masters and Slaves[¶](#Webinos-Masters-and-Slaves)
+
+A webinos runtime is capable of interpreting and executing a webinos
+application. The application may be hosted or packaged, It consists of
+HTML and Javascript resources, can make use of webinos recognised APIs
+and is moderated by the webinos security policy.
+
+Webinos runtime can locally execute webinos applications
+
+A webinos slave is discoverable and, addressable by a webinos runtime. A
+webinos slave has capabilities that can be queried and executed remotely
+by a webinos runtime by JavaScript bindings to these capabilities. The
+discovery, addressability, over execution and policy enforcement is
+provided in a distributed fashion by the webinos network.
+
+Some examples of masters and slaves to be found below
+
+![](master-slave-examples.jpg)
+
+### The Webinos Network Problem[¶](#The-Webinos-Network-Problem)
+
+One of the challenges for webinos to to deliver its distributed vision
+across a number of different network types.
+
+Although these come in many flavours, two of the more extreme use cases
+that eptimise the problem are
+
+1.  connection between a mobile phone and a laptop, which are both on a
+    public internet
+2.  connection between a mobile phone and an incar device (in a tunnel)
+    which only have a local wireless network connection to each other
+    and not public internet access.
+
+![](conenctions.jpg)
+
+### Webinos Networks[¶](#Webinos-Networks)
+
+To help solve this problem we introduce the concept of a webinos
+network.
+
+A webinos network is an overlay network, which is independent of the
+underlying bearer. It has its own addressing mechanisms, concept of long
+lasting sessions, and inbuilt distributed security an policy based upon
+strong and trusted credentials
+
+More fully:
+
+-   Should have its own virtualised addressing schema to identify
+    (devices, apps, users) irrespective of the physical bearer/system
+-   Should have its own virtualised messaging mechanism - that will use
+    all the possible physical networks
+    -   This messaging mechanism could be highly optimised –
+        multiplexing etc
+-   It will be able to operate in the public internet and local internet
+    scenarios
+-   This network should support the concept of “long lasting sessions”,
+    addressability and messaging mechanism persist even though network
+    has been torn down and another created – and or and application
+    moves between devices
+-   As part of the session setup from an “end point” – full and complete
+    credentials are passed (ie user/device/application/runtime)
+    securely. We can see this as 1st order context passed to the system.
+    That allows for adaptation
+-   This network facilitates the discovery and execution of remote
+    services and capability – allowing many apps/devices to co-ordinate.
+-   The networks communication mechanism - should be symmetric
+-   This network as Security and Policy - built into the network - to
+    facilitate distribute enforcement
+
+### Webinos Agents[¶](#Webinos-Agents)
+
+Is an key implementation ingredient of the Webinos Network. This agent
+provides the distributed intelligence to route, store and police the
+webinos network traffic.
+
+TODO: needs diagram....
+
+### Webinos JavaScript Proxy[¶](#Webinos-JavaScript-Proxy)
+
+Is the mechanism via with remote capability and service is exposed to a
+3rd party webinos application developer.
+
+This mechanism allows the implementation details to be totally hidden
+from the developer, but exposes the functionality in a manner that is
+easy for the user to understand and use
+
+TODO: needs diagram....
+
+Glossary[¶](#Glossary)
+----------------------
+
+#### Web Application[¶](#Web-Application)
+
+An application developed in HTML and Javascript, and runs outside the
+chrome (ie has full control of its user interface)\
+Delivers features and functions outside of the typical capability of
+sandboxed website.
+
+#### Interpreted Web Application[¶](#Interpreted-Web-Application)
+
+A typical web application where the code and markup is interpreted at
+runtime.
+
+#### Compiled Web Application[¶](#Compiled-Web-Application)
+
+A web application that has been "pre-processed" so that the markup and
+script delivered to the device on which it will run is not the normal
+form. Includes
+
+-   Phonegap: where code is complied to native
+-   Opera mini: where web code is complied to a proprietary binary
+    format.
+
+#### Hosted (Web) App[¶](#Hosted-Web-App)
+
+A web application that is left on a web server and is download from
+there each time it is executed.\
+Will probably also require a manifest.
+
+#### Packaged (Web) App[¶](#Packaged-Web-App)
+
+A web application packaged (usually as a zip file) and can be copied
+from device to device and executed
+
+#### Web manifest[¶](#Web-manifest)
+
+A piece of meta data that describes the web application. Needed for
+security and UI purposed, Includes
+
+-   config.xml from normal w3c widgets
+-   descriptor file form a google chrome .crx file
+-   apple web clips format
+-   HTML5 ApplicationCache manifest
+
+#### Webinos Runtime (webinos master)[¶](#Webinos-Runtime-webinos-master)
+
+A webinos runtime is capable of interpreting and executing a webinos
+application. The application may be hosted or packaged, It consists of
+HTML and Javascript resources, can make use of webinos recognised APIs
+and is moderated by the webinos security policy.
+
+Webinos runtime can locally execute webinos applications
+
+#### Webinos Slave[¶](#Webinos-Slave)
+
+A webinos slave is discoverable and, addressable by a webinos runtime. A
+webinos slave has capabilities that can be queried and executed remotely
+by a webinos runtime by JavaScript bindings to these capabilities. The
+discovery, addressability, over execution and policy enforcement is
+provided in a distributed fashion by the webinos network.
+
+#### Open Addressable Internet[¶](#Open-Addressable-Internet)
+
+The scenario where two devices have TCP access to each other and are
+discoverable over public DNS systems
+
+#### Open Addressable Internet[¶](#Open-Addressable-Internet)
+
+The scenario where two devices have TCP access to each other and are
+discoverable over public DNS systems
+
+#### Local Internet[¶](#Local-Internet)
+
+The scenario where two devices have TCP access but do not have
+visibility of general internet - nor access to public DNS system\
+TODO: these definitions need exploring better; probably worth looking to
+definitions used for DLNA
+
+#### Webinos Network[¶](#Webinos-Network)
+
+Webinos network is an overlay network, independent of the physical
+network, with its own notions of addressing, session and security. It is
+capable of passing information in an optimsed manner
+
+#### Webinos Agent[¶](#Webinos-Agent)
+
+Is an key implementation ingredient of the Webinos Network. This agent
+provides the distributed intelligence to route, store and police the
+webinos network traffic.
+
+#### Webinos Javascript Proxy[¶](#Webinos-Javascript-Proxy)
+
+Is the mechanism via with remote capability and service is exposed to a
+3rd party webinos application developer.
+

@@ -1,0 +1,81 @@
+Personal Zone Key Infrastructure - new proposal[¶](#Personal-Zone-Key-Infrastructure-new-proposal)
+==================================================================================================
+
+This proposal is based on several things.
+
+1.  the existing PKI documentation:
+    </wp3-3/wiki/Personal_Zone_Key_Infrastructure>
+2.  the following change request:
+    </wp2-4/wiki/Personal_Zone_Unlinkability>
+3.  the desire to eventually support more peer-to-peer personal zone
+    enrolment
+4.  the desire to potentially support device-specific encryption (e.g.
+    for webinos services)
+
+New certificate and key hierarchy[¶](#New-certificate-and-key-hierarchy)
+------------------------------------------------------------------------
+
+### PZH CA keys and certificates[¶](#PZH-CA-keys-and-certificates)
+
+The PZH will have multiple CA certificates and keys. Each CA certificate
+may correspond to an OpenID identity. E.g., Alice Smith who is hosting
+her PZH at hubfarm.com might have the following hub CA certificates :
+
+  ------------------- ---------- ------------------------------- ----------------------------
+  OpenID              Key        Certificate common name         Certificate email address
+  <alice@foo.com>     CA Key 1   Pzh:hubfarm:<alice@foo.com>     <alice@foo.com>
+  <a.smith@bar.com>   CA Key 2   Pzh:hubfarm:<a.smith@bar.com>   <a.smith@bar.com>
+  [none]              CA Key 3   Pzh:hubfarm:[random string]     [randomstring]@hubfarm.com
+  ------------------- ---------- ------------------------------- ----------------------------
+
+### PZH keys and certificates[¶](#PZH-keys-and-certificates)
+
+The PZH will have several other keys and certificates, in the following
+categories:
+
+  ------------------ --------------------------------------------------------------------------------- ----------------------------------------------------------------------------
+  Key                Use                                                                               Certificate
+  TLS (client) key   Client key for outgoing connections to other PZHs                                 Signed by one of the PZH CA keys
+  TLS (server) key   The TLS server key used to accept incoming connections from other PZHs and PZPs   Either signed by a CA key (SNI) or by a generic PZH provider key (non-SNI)
+  Web server key     Running the PZH Web Server                                                        Either signed by a CA key or by a generic PZH provider key
+  CRL key            Signing CRLs for the revocation of PZPs                                           Signed by one of the PZH CA keys
+  ------------------ --------------------------------------------------------------------------------- ----------------------------------------------------------------------------
+
+Every key with a certificate issued by a PZH CA must be duplicated for
+each CA key that exists.
+
+Incoming TLS connections to a PZH Farm can be handled by SNI, such that
+the client requests the particular identity it is looking for. In this
+situation, the identity ought to be the user OpenID identity.
+
+### PZP keys and certificates[¶](#PZP-keys-and-certificates)
+
+Each PZP will have the following keys and certificates:
+
+  ------------------------ ------------------------------------------------------------------- ----------------------------------
+  Key                      Use                                                                 Certificate
+  PZP CA key               Creating certificates for other keys. Root identity for this key.   Signed by one of the PZH CA keys
+  PZP TLS client key       Client key for connecting to the PZH and other PZPs                 Signed by one of the PZP CA keys
+  PZP encryption key       Key that may be used to decrypt incoming data                       Signed by one of the PZP CA keys
+  PZP WebSocket key        Key used as a server to the WebSocket connection from the browser   Signed by one of the PZP CA keys
+  PZP Browser client key   Key used to identify the browser to the WebSocket connection.       Signed by one of the PZP CA keys
+  ------------------------ ------------------------------------------------------------------- ----------------------------------
+
+For each PZH CA key and certificate, there ought to be a new PZP CA
+*certificate* at the very least. It can be argued that there would need
+to be multiple keys, too.
+
+Diagram[¶](#Diagram)
+--------------------
+
+### With one identity and two PZPs[¶](#With-one-identity-and-two-PZPs)
+
+This diagram does not show the multiplicity of keys or certificates for
+different identities.
+
+![](key-hierarchy-simple3.png)
+
+### With two identities and two PZPs, but with PZH host using its own TLS and web server certificates[¶](#With-two-identities-and-two-PZPs-but-with-PZH-host-using-its-own-TLS-and-web-server-certificates)
+
+![](key-hierarchy-example-two-ids.png)
+

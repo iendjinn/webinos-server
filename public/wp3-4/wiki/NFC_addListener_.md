@@ -1,0 +1,15 @@
+addListener[¶](#addListener)
+============================
+
+This is a method for registering a call back for all NFC tag
+technologies.
+
+``` {.webidl .prettyprint}
+  // add generic listener for all NFC tag technologies
+  void addListener(NfcEventCallBack listener,
+      SuccessCallBack success, FailCallBack fail);
+```
+
+It makes use of the success and failure call back pattern. These call
+backs are defined in a subsequent section.
+
